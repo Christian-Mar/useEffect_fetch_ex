@@ -13,12 +13,12 @@ function App() {
         );
         const responseData = await response.json();
         setPrice([...price, responseData]); 
-        console.log(price)
+        //setPrice(price.push(responseData));
+        console.log(price);
       }
 
         fetchData();
-        setInterval(fetchData, 60001);
-       
+        setInterval(fetchData, 60000);       
     }, []);
     
     
