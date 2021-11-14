@@ -2,35 +2,38 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-    const [price, setPrice] = useState(); //[]
+    const [price, setPrice] = useState([]);
     
-    
-    
-      useEffect(() => {
+    useEffect(() => {
 
       const fetchData = async () => {
-
-        const response = await fetch(
+        
+       const response = await fetch(
           "https://api.coindesk.com/v1/bpi/currentprice.json"
         );
-        const data = await response.json();
-        //console.log(data.bpi.EUR.rate);
-        setPrice(data); 
-        //price.push(data);
+        const responseData = await response.json();
+        setPrice([...price, responseData]); 
+        console.log(price)
       }
+
         fetchData();
-        setInterval(fetchData, 60000);
+        setInterval(fetchData, 60001);
        
     }, []);
     
     
 
     return (
-			<>
-				<div style={{ color: 'DarkBlue', margin: '4rem'}}>
-					Bitcoin = {price?.bpi.EUR.rate} EUR on {price?.time.updated}
-				</div>
-			</>
+			<div>
+				<ul>
+					{price.map(item => (
+						<li key={item?.time.updated}>
+							Bitcoin = {item?.bpi.EUR.rate} EUR
+							on {item?.time.updated}
+						</li>
+					))}
+				</ul>
+			</div>
 		);
   };
 
